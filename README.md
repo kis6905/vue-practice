@@ -10,6 +10,8 @@
 # git clone
 git clone {this repository}
 
+cd vue-practice
+
 # install dependencies
 npm install
 
