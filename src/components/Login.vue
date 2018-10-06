@@ -1,14 +1,22 @@
 <template>
-  <b-container fluid>
-    <h1>Login page</h1>
+  <b-container fluid class="center">
+    <b-img class="login-logo" src="/static/images/logo.png" fluid-grow alt="logo" />
     <b-row class="my-1">
       <b-col sm="12">
-        <b-form-input v-model="id.value" :state="id.state" type="text" placeholder="ID" />
+        <b-form-input v-model="id.value"
+                      :state="id.state"
+                      v-on:keyup.native="handleInputId"
+                      type="text"
+                      placeholder="ID" />
       </b-col>
     </b-row>
     <b-row class="my-2">
       <b-col sm="12">
-        <b-form-input v-model="password.value" :state="password.state" type="password" placeholder="Password" />
+        <b-form-input v-model="password.value"
+                      :state="password.state"
+                      v-on:keyup.native="handleInputPassword"
+                      type="password"
+                      placeholder="Password" />
       </b-col>
     </b-row>
     <b-button @click="handleLogin" size="lg" variant="success" block>Login</b-button>
@@ -43,27 +51,29 @@ export default {
     handleLogin: function (event) {
       console.log('handleLogin')
       console.log(this.id, this.password)
-      let isValidate = true
-
-      if (!this.id.value) {
-        this.id.state = false
-        isValidate = false
-      } else {
-        this.id.state = true
+      if (this.id.state && this.password.state) {
+        this.$router.push('Main')
       }
-
-      if (!this.password.value) {
-        this.password.state = false
-        isValidate = false
-      } else {
-        this.password.state = true
-      }
-
-      if (!isValidate) {
+    },
+    handleInputId (event) {
+      console.log('handleInputId', event.key)
+      if (event.key === 'Enter') {
+        this.handleLogin()
         return false
       }
-
-      this.$router.push('Main')
+      this.id.state = this.id.value.length > 2
+      console.log(this.id.state)
+      return this.id.state
+    },
+    handleInputPassword () {
+      console.log('handleInputPassword', event)
+      if (event.key === 'Enter') {
+        this.handleLogin()
+        return false
+      }
+      this.password.state = this.password.value.length > 5
+      console.log(this.password.state)
+      return this.password.state
     }
   }
 }
@@ -71,5 +81,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.center {
+  text-align: center;
+  width: 50%;
+}
 
+.login-logo {
+  padding-top: 20%;
+  padding-bottom: 1.5rem;
+}
 </style>
