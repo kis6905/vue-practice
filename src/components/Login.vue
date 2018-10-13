@@ -24,8 +24,11 @@
 </template>
 
 <script>
+import common from '../common/common'
+
 export default {
   name: 'Main',
+  mixins: [common],
   data () {
     return {
       id: {
@@ -48,11 +51,13 @@ export default {
     console.log('destroyed')
   },
   methods: {
-    handleLogin: function (event) {
+    handleLogin: async function (event) {
       console.log('handleLogin')
       console.log(this.id, this.password)
       if (this.id.state && this.password.state) {
-        this.$router.push('Main')
+        const resData = await this.request('/member/list')
+        console.log(resData.json())
+        // this.$router.push('Main')
       }
     },
     handleInputId (event) {
@@ -83,11 +88,11 @@ export default {
 <style scoped>
 .center {
   text-align: center;
-  width: 50%;
+  max-width: 330px;
 }
 
 .login-logo {
-  padding-top: 20%;
+  padding-top: 30%;
   padding-bottom: 1.5rem;
 }
 </style>

@@ -11,6 +11,8 @@ export default {
     return {
       msg: 'Main page'
     }
+  },
+  method () {
   }
 }
 </script>
